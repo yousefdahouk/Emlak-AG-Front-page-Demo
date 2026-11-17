@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Emlak AG | Vertrauen in Immobilien</title>
+	<meta name="description" content="Emlak AG – Ihr Immobilienmanager in Köln. Verkauf, Vermietung, Verwaltung, Architektur und Wertermittlung aus einer Hand.">
+	<link rel="icon" href="https://emlak-ag.de/wp-content/uploads/2016/03/cropped-Favicon-32x32.png">
+
+	<!--
+		Scroll-driven animations gate.
+		Browsers with native support get the `sda` + `sda-native` classes right away.
+		Others load the scroll-timeline polyfill first (same polyfill as the parallax-carousel demo),
+		then get `sda`. Users who prefer reduced motion get a static page.
+	-->
+	<script>
+		(function () {
+			var root = document.documentElement;
+			var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			root.classList.add('js');
+			if (reduce) return;
+			if (window.CSS && CSS.supports('animation-timeline: view()')) {
+				root.classList.add('sda', 'sda-native');
+			} else {
+				var s = document.createElement('script');
+				s.src = 'vendor/scroll-timeline.js';
+				s.onload = function () { root.classList.add('sda'); };
+				document.head.appendChild(s);
+			}
+		})();
+	</script>
+
+	<!-- WebFonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+
+	<!-- Page styles. All scroll-driven animation code lives in this file, grouped per section. -->
+	<link rel="stylesheet" href="assets/css/styles.css">
+
+	<!-- <model-viewer> for the 3D explorer (vendored copy of @google/model-viewer 4.1.0) -->
+	<script type="module" src="vendor/model-viewer.min.js"></script>
+	<script type="module" src="assets/js/main.js"></script>
+</head>
+<body>
+
+	<!-- Reading progress, driven by scroll(root) -->
+	<div class="progress" aria-hidden="true"></div>
+
+	<!-- ============ HEADER ============ -->
+	<header class="site-header">
+		<a class="brand" href="#top" aria-label="Emlak AG – zur Startseite">
+			<img src="assets/img/emlak-logo.png" alt="Emlak AG – vertrauen in immobilien" width="400" height="95">
+		</a>
+		<nav class="nav" id="nav" aria-label="Hauptnavigation">
+			<a href="#objekte">Objekte</a>
+			<a href="#werte">Unternehmen</a>
+			<a href="#leistungen">Leistungen</a>
+			<a href="#quartier">3D-Quartier</a>
+			<a href="#rechner">Rechner</a>
+			<a href="#kontakt">Kontakt</a>
+		</nav>
+		<a class="btn btn--small header-call" href="tel:+492203909850">02203 909850</a>
+		<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav">
+			<span></span><span></span><span class="visually-hidden">Menü</span>
+		</button>
+	</header>
+
+	<main>
+
+		<!-- ============ HERO: full-bleed image shrinks into a window as you scroll ============ -->
+		<section class="hero" id="top">
+			<div class="hero__stage">
+				<div class="hero__media">
+					<img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=70" alt="" fetchpriority="high">
+				</div>
+				<div class="hero__shade"></div>
+
+				<div class="hero__content">
+					<p class="eyebrow eyebrow--light">Emlak AG · Köln</p>
+					<h1 class="hero__title">
+						<span class="line"><span style="--d:0">Vertrauen</span></span>
+						<span class="line"><span style="--d:1">in <em>Immobilien.</em></span></span>
+					</h1>
+					<p class="hero__lead">Ihr Immobilienmanager in Köln – Verkauf, Vermietung, Verwaltung, Architektur und Wertermittlung aus einer Hand.</p>
+					<div class="hero__cta">
+						<a class="btn" href="#objekte">Objekte entdecken</a>
+						<a class="btn btn--ghost" href="#kontakt">Kostenfreie Marktwertanalyse</a>
+					</div>
+				</div>
+
+				<p class="hero__tag" aria-hidden="true">Qualität in Leistung <em>&amp;</em> Service</p>
+
+				<ul class="hero__chips">
+					<li>DEKRA Immobilienbewerter</li>
+					<li>Architektur aus einer Hand</li>
+					<li>Kompetente Mitarbeiter</li>
+				</ul>
+
+				<a class="scroll-cue" href="#objekte"><span>Scrollen</span></a>
+			</div>
+		</section>
+
+		<!-- ============ MARQUEE: two rows, moving in opposite directions with scroll ============ -->
+		<section class="marquee" aria-label="Unsere Objektarten">
+			<div class="marquee__row">
+				<span>Wohnungen</span><i></i><span>Häuser</span><i></i><span>Gewerbeobjekte</span><i></i><span>Grundstücke</span><i></i><span>Wohnungen</span><i></i><span>Häuser</span><i></i>
+			</div>
+			<div class="marquee__row marquee__row--outline" aria-hidden="true">
+				<span>Kaufen</span><i></i><span>Verkaufen</span><i></i><span>Mieten</span><i></i><span>Vermieten</span><i></i><span>Verwalten</span><i></i><span>Kaufen</span><i></i>
+			</div>
+		</section>
+
+		<!-- ============ PARALLAX CAROUSEL (object-position driven by view(x)) ============ -->
+		<section class="objects" id="objekte">
+			<header class="section-head">
+				<div>
+					<p class="eyebrow">Wir verkaufen &amp; vermieten für Sie</p>
+					<h2 class="section-title">Jede Immobilie hat <em>ihr Fenster.</em></h2>
+				</div>
+				<div class="carousel-ctrl">
+					<button type="button" class="round-btn" data-dir="-1" aria-label="Zurück">←</button>
+					<span class="counter" aria-live="polite"><b>01</b> / 10</span>
+					<button type="button" class="round-btn" data-dir="1" aria-label="Weiter">→</button>
+				</div>
+			</header>
+
+			<ul class="slides" id="slides">
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&h=900&q=70" alt="Moderne Wohnanlage mit Balkonen" draggable="false" loading="lazy">
+					<div class="slide__label"><span>01</span><h3>Wohnungen</h3><p>Stadtnah, hell, gut angebunden</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&h=900&q=70" alt="Modernes Einfamilienhaus mit Pool" draggable="false" loading="lazy">
+					<div class="slide__label"><span>02</span><h3>Häuser</h3><p>Raum für Familie und Zukunft</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&h=900&q=70" alt="Helle Büroetage" draggable="false" loading="lazy">
+					<div class="slide__label"><span>03</span><h3>Gewerbeobjekte</h3><p>Büro, Praxis, Einzelhandel</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1400&h=900&q=70" alt="Kleines Haus auf einem Hügel" draggable="false" loading="lazy">
+					<div class="slide__label"><span>04</span><h3>Grundstücke</h3><p>Bauland mit Perspektive</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&fit=crop&w=1400&h=900&q=70" alt="Mehrfamilienhaus mit Holzfassade" draggable="false" loading="lazy">
+					<div class="slide__label"><span>05</span><h3>Mehrfamilienhäuser</h3><p>Rendite durch gute Verwaltung</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1400&h=900&q=70" alt="Villa mit Pool" draggable="false" loading="lazy">
+					<div class="slide__label"><span>06</span><h3>Villen</h3><p>Diskret vermarktet</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1400&h=900&q=70" alt="Neubau mit Holz- und Putzfassade" draggable="false" loading="lazy">
+					<div class="slide__label"><span>07</span><h3>Neubau</h3><p>Von der Planung bis zur Übergabe</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&h=900&q=70" alt="Fassade eines Wohnhauses" draggable="false" loading="lazy">
+					<div class="slide__label"><span>08</span><h3>Stadthäuser</h3><p>Wohnen im Veedel</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&h=900&q=70" alt="Loft-Büro mit großen Fenstern" draggable="false" loading="lazy">
+					<div class="slide__label"><span>09</span><h3>Büroflächen</h3><p>Flexible Flächen für Teams</p></div>
+				</li>
+				<li class="slide">
+					<img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&h=900&q=70" alt="Modernisiertes Wohnzimmer" draggable="false" loading="lazy">
+					<div class="slide__label"><span>10</span><h3>Modernisierung</h3><p>Wert steigern, Kosten senken</p></div>
+				</li>
+			</ul>
+		</section>
+
+		<!-- ============ STATEMENT: text fills line by line while pinned ============ -->
+		<section class="statement" id="unternehmen">
+			<div class="statement__inner">
+				<p class="eyebrow">Emlak AG: Wir stehen für Immobilien!</p>
+				<p class="statement__text"><span>Als Immobilienoptimierer setzen wir unsere langjährige Erfahrung ein, um durch Kostensenkung und wertsteigernde Maßnahmen den Wert Ihrer Immobilie nachhaltig zu erhöhen – mit Konzepten, die maximale Wertsteigerung bei minimalem Aufwand erzielen.</span></p>
+			</div>
+		</section>
+
+		<!-- ============ STACKING CARDS ============ -->
+		<section class="stack" id="werte" aria-label="Was uns auszeichnet">
+			<article class="stack__card" style="--i:0">
+				<div class="stack__text">
+					<span class="stack__num">01</span>
+					<h3>Wir begleiten Ihre Projekte mit innovativen Betreiberkonzepten.</h3>
+					<p>Unsere Leistungsbereiche greifen ineinander. So nehmen wir frühzeitig und effektiv Einfluss auf die Kostenentwicklung und sorgen für eine bessere Kontrolle der Prozessabläufe – inklusive Hinweisen zu möglichen Förderungen.</p>
+				</div>
+				<div class="stack__media"><img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&h=1200&q=70" alt="Weiße, moderne Architektur" loading="lazy"></div>
+			</article>
+			<article class="stack__card stack__card--navy" style="--i:1">
+				<div class="stack__text">
+					<span class="stack__num">02</span>
+					<h3>Wir optimieren Ihre Betriebskosten effektiv.</h3>
+					<p>Wir bewerten Risikoaspekte der Immobilienwirtschaft und senken die Gesamtkosten – mit Blick auf die Kosten des Eigentümers und eine faire Mietpreisgestaltung für Mieter und Nutzer.</p>
+				</div>
+				<div class="stack__media"><img src="https://images.unsplash.com/photo-1431576901776-e539bd916ba2?auto=format&fit=crop&w=1200&h=1200&q=70" alt="Spiegelnde Glasfassaden" loading="lazy"></div>
+			</article>
+			<article class="stack__card" style="--i:2">
+				<div class="stack__text">
+					<span class="stack__num">03</span>
+					<h3>Wir übernehmen Verantwortung im Property Management.</h3>
+					<p>Als Betreiber tragen wir Verantwortung gegenüber Eigentümern, Nutzern und Umwelt. Wir übernehmen zentrale Aufgaben wie Vertrags- und Umzugsmanagement und koordinieren jeden Prozessschritt.</p>
+				</div>
+				<div class="stack__media"><img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&fit=crop&w=1200&h=1200&q=70" alt="Wohnanlage mit Balkonen" loading="lazy"></div>
+			</article>
+			<article class="stack__card stack__card--red" style="--i:3">
+				<div class="stack__text">
+					<span class="stack__num">04</span>
+					<h3>Alle Leistungen aus einer Hand.</h3>
+					<p>Vorplanung, Design, Neubau, Betrieb, Modernisierung und Sanierung – mit eigenen Mitarbeitern und exklusiven Subunternehmern in einem internationalen Netzwerk.</p>
+				</div>
+				<div class="stack__media"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&h=1200&q=70" alt="Architekt bei der Arbeit an Bauplänen" loading="lazy"></div>
+			</article>
+			<article class="stack__card stack__card--night" style="--i:4">
+				<div class="stack__text">
+					<span class="stack__num">05</span>
+					<h3>Wir senken Ihre Verwaltungskosten.</h3>
+					<p>Mit unserem selbst konzipierten Aufzugs-, Trocknungs- und Sanitär-Service reduzieren wir die allgemeinen Fixkosten für Eigentümer im Facility Management um bis zu 30&nbsp;%.</p>
+				</div>
+				<div class="stack__media"><img src="https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=1200&h=1200&q=70" alt="Weiße Fassade mit Fensterrastern" loading="lazy"></div>
+			</article>
+		</section>
+
+		<!-- ============ STATS: numbers count up with @property + view() ============ -->
+		<section class="stats" aria-label="In Zahlen">
+			<div class="stat">
+				<p class="stat__num"><span class="count" style="--to:30">30</span><span class="unit">%</span></p>
+				<p class="stat__label">weniger Fixkosten im Facility Management – bis zu</p>
+			</div>
+			<div class="stat">
+				<p class="stat__num"><span class="count" style="--to:6">6</span><span class="unit">-Punkte</span></p>
+				<p class="stat__label">individueller Plan für Ihren BESTpreis</p>
+			</div>
+			<div class="stat">
+				<p class="stat__num"><span class="count" style="--to:4">4</span><span class="unit">Objektarten</span></p>
+				<p class="stat__label">Wohnungen, Häuser, Gewerbeobjekte, Grundstücke</p>
+			</div>
+			<div class="stat">
+				<p class="stat__num"><span class="count" style="--to:5">5</span><span class="unit">Sprachen</span></p>
+				<p class="stat__label">Deutsch · English · Türkçe · Srpski · العربية</p>
+			</div>
+		</section>
+
+		<!-- ============ HORIZONTAL SCROLL: vertical scroll moves the services track sideways ============ -->
+		<section class="hscroll" id="leistungen" aria-label="Leistungen">
+			<div class="hscroll__sticky">
+				<p class="hscroll__bg" aria-hidden="true">Leistungen · Leistungen</p>
+				<header class="hscroll__head">
+					<p class="eyebrow eyebrow--light">Unser Angebot ist weit gefächert</p>
+					<h2 class="section-title section-title--light">Leistungen, die <em>ineinandergreifen.</em></h2>
+				</header>
+				<div class="hscroll__viewport">
+					<ul class="hscroll__track">
+						<li class="svc"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>01</span><h3>Kaufen</h3><p>Ihr neues Zuhause oder Ihre nächste Kapitalanlage.</p><a href="https://emlak-ag.de/immobilien/kaufen/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>02</span><h3>Verkaufen</h3><p>BESTpreis-Garantie durch einen individuellen 6-Punkte-Plan.</p><a href="https://emlak-ag.de/immobilien/verkaufen/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>03</span><h3>Mieten</h3><p>Wohnungen und Häuser in Köln und Umgebung.</p><a href="https://emlak-ag.de/immobilien/mieten/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>04</span><h3>Vermieten</h3><p>Leistungspakete von der Anzeige bis zur Übergabe.</p><a href="https://emlak-ag.de/immobilien/vermieten/leistungspakete/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>05</span><h3>Zwangs&shy;versteigerung</h3><p>Aktuelle Angebote und NPL-Vermarktung.</p><a href="https://emlak-ag.de/immobilien/zwangsversteigerung/alle-angebote/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>06</span><h3>Projekt&shy;entwicklung</h3><p>Neubau, Modernisierung und Thermografie.</p><a href="https://emlak-ag.de/architektur/projektentwicklung/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>07</span><h3>Wert&shy;ermittlung</h3><p>Marktwertanalyse und Verkehrswertgutachten – DEKRA-zertifiziert.</p><a href="https://emlak-ag.de/wertermittlung/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>08</span><h3>Asset Management</h3><p>Investmentprofile und Immobilienankauf.</p><a href="https://emlak-ag.de/asset-management/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>09</span><h3>Verwaltung</h3><p>Hausverwaltung, Hausmeister- und Park-Service.</p><a href="https://emlak-ag.de/service/verwaltung/">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&h=1200&q=70" alt="" loading="lazy"><div><span>10</span><h3>Finanzierung</h3><p>Finanzierung und Investment mit starken Partnern.</p><a href="https://emlak-ag.de/service/finanzierung/">Mehr erfahren →</a></div></li>
+					</ul>
+				</div>
+				<div class="hscroll__progress" aria-hidden="true"><span></span></div>
+			</div>
+		</section>
+
+		<!-- ============ 3D EXPLORER: models spin as you scroll the cards sideways ============ -->
+		<section class="explorer" id="quartier">
+			<header class="section-head">
+				<div>
+					<p class="eyebrow">3D-Quartier</p>
+					<h2 class="section-title">Gebäude von <em>allen Seiten.</em></h2>
+				</div>
+				<div class="carousel-ctrl">
+					<button type="button" class="round-btn" data-dir="-1" aria-label="Zurück">←</button>
+					<button type="button" class="round-btn" data-dir="1" aria-label="Weiter">→</button>
+				</div>
+			</header>
+
+			<div class="cards" id="cards">
+				<div class="card card--intro">
+					<p class="card__big">Scrollen Sie <em>seitwärts</em> – jedes Gebäude dreht sich mit.</p>
+					<em class="card__hint">Scroll me ↔</em>
+				</div>
+
+				<div class="card">
+					<h2>Das Quartier</h2>
+					<model-viewer alt="3D-Modell eines Stadtquartiers mit Wohnhäusern, Bäumen und Straße" src="models/quartier.glb" camera-orbit="0deg 62deg 105%" field-of-view="28deg" shadow-intensity="1" shadow-softness="0.8" exposure="1.05" interaction-prompt="none" disable-zoom disable-pan loading="lazy"></model-viewer>
+					<footer>
+						<p>Zusammengestellt aus dem <a href="https://github.com/KenneyNL/Starter-Kit-City-Builder" target="_blank" rel="noopener">City Builder Kit</a> von Kenney – CC0.</p>
+					</footer>
+				</div>
+
+				<div class="card card--warm">
+					<h2>Wohn- &amp; Geschäftshaus</h2>
+					<model-viewer alt="3D-Modell eines detailreichen Wohn- und Geschäftshauses" src="models/LittlestTokyo.glb" camera-orbit="0deg 72deg 105%" field-of-view="30deg" autoplay shadow-intensity="0.6" interaction-prompt="none" disable-zoom disable-pan loading="lazy"></model-viewer>
+					<footer>
+						<p>3D-Modell <a href="https://sketchfab.com/models/94b24a60dc1b48248de50bf087c0f042" target="_blank" rel="noopener">„Littlest Tokyo“</a> von glenatron – <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</p>
+					</footer>
+				</div>
+
+				<div class="card">
+					<h2>Mehrfamilienhaus</h2>
+					<model-viewer alt="3D-Modell eines mehrstöckigen Wohnhauses" src="models/building-small-c.glb" camera-orbit="0deg 72deg 110%" field-of-view="30deg" shadow-intensity="1" interaction-prompt="none" disable-zoom disable-pan loading="lazy"></model-viewer>
+					<footer>
+						<p>„Building Small C“ aus dem City Builder Kit von <a href="https://kenney.nl" target="_blank" rel="noopener">Kenney</a> – CC0.</p>
+					</footer>
+				</div>
+
+				<div class="card card--cool">
+					<h2>Stadthaus mit Laden</h2>
+					<model-viewer alt="3D-Modell eines Stadthauses mit Ladenlokal" src="models/building-small-d.glb" camera-orbit="0deg 72deg 110%" field-of-view="30deg" shadow-intensity="1" interaction-prompt="none" disable-zoom disable-pan loading="lazy"></model-viewer>
+					<footer>
+						<p>„Building Small D“ aus dem City Builder Kit von <a href="https://kenney.nl" target="_blank" rel="noopener">Kenney</a> – CC0.</p>
+					</footer>
+				</div>
+
+				<div class="card">
+					<h2>Wohnhaus</h2>
+					<model-viewer alt="3D-Modell eines Wohnhauses" src="models/building-small-b.glb" camera-orbit="0deg 72deg 110%" field-of-view="30deg" shadow-intensity="1" interaction-prompt="none" disable-zoom disable-pan loading="lazy"></model-viewer>
+					<footer>
+						<p>„Building Small B“ aus dem City Builder Kit von <a href="https://kenney.nl" target="_blank" rel="noopener">Kenney</a> – CC0.</p>
+					</footer>
+				</div>
+			</div>
+		</section>
+
+		<!-- ============ IRIS REVEAL: architecture image opens up while pinned ============ -->
+		<section class="reveal" id="architektur">
+			<div class="reveal__sticky">
+				<div class="reveal__media">
+					<img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=2000&q=70" alt="" loading="lazy">
+				</div>
+				<div class="reveal__content">
+					<p class="eyebrow eyebrow--light">Architektur</p>
+					<h2 class="reveal__title">Architektur <em>aus einer Hand.</em></h2>
+					<ul class="reveal__list">
+						<li style="--i:0"><a href="https://emlak-ag.de/architektur/projektentwicklung/">Projektentwicklung</a></li>
+						<li style="--i:1"><a href="https://emlak-ag.de/architektur/neubau/">Neubau</a></li>
+						<li style="--i:2"><a href="https://emlak-ag.de/architektur/modenisierung/">Modernisierung</a></li>
+						<li style="--i:3"><a href="https://emlak-ag.de/architektur/thermografie/">Thermografie</a></li>
+						<li style="--i:4"><a href="https://emlak-ag.de/energieausweis/">Energieausweis</a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- ============ BESTPREIS: sticky heading, items slide in, checks draw themselves ============ -->
+		<section class="best" id="bestpreis">
+			<div class="best__head">
+				<p class="eyebrow">Wir verkaufen / vermieten für Sie</p>
+				<h2 class="section-title">BESTpreis&#8209;<em>Garantie.</em></h2>
+				<p class="best__lead">Wohnungen, Häuser, Gewerbeobjekte und Grundstücke – vermarktet von Immobilienfachleuten.</p>
+				<a class="btn" href="#kontakt">Jetzt anfragen</a>
+			</div>
+			<ol class="best__list">
+				<li><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14 25l7 7 14-15"/></svg><div><h3>Individueller 6-Punkte-Plan</h3><p>Ein Vermarktungsplan, zugeschnitten auf Ihre Immobilie und Ihre Ziele.</p></div></li>
+				<li><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14 25l7 7 14-15"/></svg><div><h3>Kostenfreie Marktwertanalyse</h3><p>Wissen, was Ihre Immobilie wert ist – bevor Sie entscheiden.</p></div></li>
+				<li><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14 25l7 7 14-15"/></svg><div><h3>Kostenfreier Energieausweis</h3><p>Bedarfs- oder Verbrauchsausweis, inklusive.</p></div></li>
+				<li><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14 25l7 7 14-15"/></svg><div><h3>Top-Service durch Immobilienfachleute</h3><p>Persönliche Ansprechpartner von der Besichtigung bis zum Notartermin.</p></div></li>
+			</ol>
+		</section>
+
+		<!-- ============ MORTGAGE CALCULATOR ============ -->
+		<section class="calc" id="rechner">
+			<div class="calc__intro">
+				<p class="eyebrow eyebrow--light">Hypothekenrechner</p>
+				<h2 class="section-title section-title--light">Was kostet <em>Ihr Zuhause</em> im Monat?</h2>
+				<p>Eine schnelle, unverbindliche Beispielrechnung. Für ein konkretes Angebot beraten wir Sie gern persönlich.</p>
+			</div>
+			<form class="calc__card" id="calc" onsubmit="return false">
+				<label>
+					<span>Kaufpreis <output data-for="price"></output></span>
+					<input type="range" name="price" min="50000" max="1500000" step="5000" value="350000">
+				</label>
+				<label>
+					<span>Eigenkapital <output data-for="down"></output></span>
+					<input type="range" name="down" min="0" max="60" step="1" value="20">
+				</label>
+				<label>
+					<span>Laufzeit <output data-for="years"></output></span>
+					<input type="range" name="years" min="5" max="35" step="1" value="25">
+				</label>
+				<label>
+					<span>Zinssatz <output data-for="rate"></output></span>
+					<input type="range" name="rate" min="0.5" max="8" step="0.05" value="3.6">
+				</label>
+				<div class="calc__result">
+					<p>Monatliche Rate</p>
+					<p class="calc__monthly" id="monthly">–</p>
+					<dl>
+						<div><dt>Darlehen</dt><dd id="loan">–</dd></div>
+						<div><dt>Zinsen gesamt</dt><dd id="interest">–</dd></div>
+					</dl>
+				</div>
+			</form>
+		</section>
+
+		<!-- ============ CONTACT ============ -->
+		<section class="contact" id="kontakt">
+			<h2 class="contact__title">
+				<span class="mask"><span>Sprechen wir über</span></span>
+				<span class="mask"><span><em>Ihre Immobilie.</em></span></span>
+			</h2>
+			<div class="contact__grid">
+				<div>
+					<h3>Büro</h3>
+					<p>Emlak AG<br>Kaiserstr. 51<br>51145 Köln</p>
+				</div>
+				<div>
+					<h3>Telefon</h3>
+					<p><a href="tel:+492203909850">02203-909850</a><br>Fax 02203-909855</p>
+				</div>
+				<div>
+					<h3>E-Mail</h3>
+					<p><a href="mailto:info@emlak-ag.de">info@emlak-ag.de</a></p>
+				</div>
+				<div class="contact__cta">
+					<a class="btn btn--big" href="mailto:info@emlak-ag.de?subject=Kostenfreie%20Marktwertanalyse">Kostenfreie Marktwertanalyse anfragen</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<p class="wordmark" aria-hidden="true"><span>Emlak</span> <span>AG</span></p>
+		<div class="site-footer__bar">
+			<p>© <span id="year">2026</span> Emlak AG · Vertrauen in Immobilien</p>
+			<nav aria-label="Rechtliches">
+				<a href="https://emlak-ag.de/impressum/">Impressum</a>
+				<a href="https://emlak-ag.de/datenschutz/">Datenschutz</a>
+				<a href="https://emlak-ag.de/service-und-kontakt/">Service &amp; Kontakt</a>
+			</nav>
+		</div>
+		<p class="site-footer__credits">Fotos: <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash</a> · 3D-Modelle: Kenney (CC0), glenatron (CC BY 4.0)</p>
+	</footer>
+
+</body>
+</html>
