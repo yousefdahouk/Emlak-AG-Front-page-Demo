@@ -2,7 +2,7 @@
 
 A redesign concept for the [emlak-ag.de](https://emlak-ag.de/) front page, built around **CSS scroll-driven animations** (`animation-timeline: scroll()` / `view()`).
 
-It is a static site with no build step. Open `index.html` through any static server:
+It is a static site with no build step. **See [RUNNING-LOCALLY.md](RUNNING-LOCALLY.md)** for cloning it and running it on Windows, macOS or in VS Code. The short version, in the project folder:
 
 ```bash
 python3 -m http.server 8000
@@ -16,17 +16,23 @@ Then visit <http://localhost:8000>. (Opening the file directly with `file://` al
 | --- | --- | --- |
 | Header | Reading-progress bar; the pill header tightens | `scroll(root)` |
 | Hero | Full-bleed photo recedes into a framed "window", the headline blurs out and a tagline fades in | `scroll(root)` with `animation-range` in `vh` |
-| Marquee | Two rows of object types slide in opposite directions | `view()` / `cover` |
+| Word band 1 (after the hero) | Two rows of words move with your scroll, in opposite directions. This is the *Reverse scrolling columns* demo turned sideways | `view()`, `flex-direction: row-reverse`, `translateX(calc(-100% + 100vw))` |
 | **Objekte** | **Parallax carousel**: the image slides across inside each card as it crosses the scrollport (from the *Parallax Carousel* demo) | `view(x)` + `object-position` |
 | Statement | Text fills in line by line while pinned | Named `view-timeline` + inline `background-clip: text` |
 | Werte | Stacking cards that shrink and dim as the next one covers them | `view-timeline` on the stack, `animation-range: contain …` |
 | Stats | Numbers count up | `@property --num` (integer) + `counter()` |
-| Leistungen | Vertical scroll drives a horizontal track of services | Sticky stage + `translateX(calc(-100% + 100vw))` |
+| Leistungen | Vertical scroll drives a horizontal track of services. Each photo also slides inside its card (parallax window) while the text drifts the other way | Sticky stage + `translateX(calc(-100% + 100vw))`; per-card `animation-range` set by `main.js` |
 | **3D-Quartier** | **3D buildings rotate as you scroll the cards sideways**, with titles clipping in and out (from the *3D Shoe Explorer* demo) | `view-timeline: --card inline` + `trackProgress()` → `<model-viewer orientation>` |
 | Architektur | Iris reveal: a circle opens onto the photo, then chips pop in | `clip-path: circle()` on a named view timeline |
 | BESTpreis | Items slide in and the check marks draw themselves | `view()` + `stroke-dashoffset` |
+| Word band 2 (before the calculator) | Two rows loop on their own, in opposite directions, and pause on hover | Time-based `@keyframes`, content doubled and shifted by `-50%` |
 | Rechner | Mortgage calculator card rises in. The calculation works for real | `view()` |
-| Kontakt / Footer | Masked headline reveal; the wordmark rises | `view()` |
+| Kontakt / Footer | Masked headline reveal; the Emlak AG logo rises | `view()` |
+
+Other details:
+
+* **Language switch:** the faint `DE / EN` beside the logo. German is the page text; English sits in `data-en` attributes (and `data-en-alt` / `data-en-aria-label`). The choice is remembered per browser.
+* **Typeface:** [Archivo](https://fonts.google.com/specimen/Archivo), whose width axis gives the condensed bold of the logo's "Emlak AG" for headings. Labels are lowercase and widely tracked, like "vertrauen in immobilien".
 
 All scroll-driven rules are scoped under `html.sda`:
 
@@ -65,4 +71,4 @@ Other good places to find free building models: [Poly Pizza](https://poly.pizza)
 
 ### Content
 
-The copy, contact details and links come from the current emlak-ag.de front page. The logo is Emlak AG's own (`assets/img/emlak-logo.png`).
+The copy, contact details and links come from the current emlak-ag.de front page. The logo is Emlak AG's own (`assets/img/emlak-logo.png`). It's the large version from emlak-ag.de, scaled to 1200 px wide, with its white background made transparent.

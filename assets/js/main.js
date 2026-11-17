@@ -1,6 +1,7 @@
 /* Emlak AG – front page demo
  * Small, dependency-free helpers. All animation lives in CSS; JS only
- * wires up controls and syncs the 3D models to their scroll timelines.
+ * wires up controls, the language switch, and syncs the 3D models to
+ * their scroll timelines.
  */
 
 /* ------------------------------------------------------------------
@@ -28,6 +29,50 @@ const trackProgress = (animation, cb, precision = 5) => {
 
 const root = document.documentElement;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ------------------------------------------------------------------
+ * Language switch (DE ⇄ EN)
+ * German is the page's own text. Elements carry their English version in
+ * data-en (HTML), and attributes in data-en-alt / data-en-aria-label.
+ * The German original is kept in data-de / data-de-* on first switch.
+ * ------------------------------------------------------------------ */
+const STORAGE_KEY = 'emlak-lang';
+const META = {
+	de: { title: 'Emlak AG | Vertrauen in Immobilien', locale: 'de-DE', years: 'Jahre' },
+	en: { title: 'Emlak AG | Trust in real estate', locale: 'en-IE', years: 'years' },
+};
+let lang = 'de';
+
+const applyLang = (next) => {
+	lang = next;
+	root.lang = next;
+	document.title = META[next].title;
+
+	document.querySelectorAll('[data-en]').forEach((el) => {
+		if (el.dataset.de === undefined) el.dataset.de = el.innerHTML;
+		el.innerHTML = next === 'en' ? el.dataset.en : el.dataset.de;
+	});
+
+	['alt', 'aria-label'].forEach((attr) => {
+		const enKey = `data-en-${attr}`;
+		const deKey = `data-de-${attr}`;
+		document.querySelectorAll(`[${enKey}]`).forEach((el) => {
+			if (!el.hasAttribute(deKey)) el.setAttribute(deKey, el.getAttribute(attr) ?? '');
+			el.setAttribute(attr, el.getAttribute(next === 'en' ? enKey : deKey));
+		});
+	});
+
+	document.querySelectorAll('.lang [data-lang]').forEach((btn) => {
+		btn.setAttribute('aria-pressed', String(btn.dataset.lang === next));
+	});
+
+	try { localStorage.setItem(STORAGE_KEY, next); } catch (e) { /* storage unavailable: fine */ }
+	if (typeof calc === 'function') calc();
+};
+
+document.querySelectorAll('.lang [data-lang]').forEach((btn) => {
+	btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
 
 /* ------------------------------------------------------------------
  * 3D explorer – rotate each model with its card's View Timeline
@@ -65,19 +110,43 @@ const wireModels = () => {
 	}
 };
 
+/* ------------------------------------------------------------------
+ * Services track – per-card ranges for the parallax photos.
+ * The track slides by D = trackWidth - viewportWidth over the section's
+ * "contain" range. A card at offsetLeft x is on screen from
+ * (x - vw) / D to (x + w) / D of that range.
+ * ------------------------------------------------------------------ */
+const hsTrack = document.querySelector('.hscroll__track');
+const layoutServices = () => {
+	const vw = document.documentElement.clientWidth;
+	const travel = hsTrack.scrollWidth - vw;
+	if (travel <= 0) return;
+	hsTrack.querySelectorAll('.svc').forEach((card) => {
+		const x = card.offsetLeft;
+		const w = card.offsetWidth;
+		card.style.setProperty('--enter', `${(((x - vw) / travel) * 100).toFixed(2)}%`);
+		card.style.setProperty('--exit', `${(((x + w) / travel) * 100).toFixed(2)}%`);
+	});
+};
+
 // When the polyfill is used, `.sda` arrives a little later – wait for it.
-if (root.classList.contains('sda') || reduceMotion || root.classList.contains('sda-native')) {
-	requestAnimationFrame(wireModels);
-} else {
+const whenReady = (fn) => {
+	if (root.classList.contains('sda') || reduceMotion) return requestAnimationFrame(fn);
 	let waited = 0;
 	const wait = setInterval(() => {
 		waited += 100;
 		if (root.classList.contains('sda') || waited > 3000) {
 			clearInterval(wait);
-			requestAnimationFrame(wireModels);
+			requestAnimationFrame(fn);
 		}
 	}, 100);
-}
+};
+whenReady(() => {
+	wireModels();
+	layoutServices();
+});
+window.addEventListener('resize', layoutServices);
+document.fonts?.ready.then(layoutServices);
 
 /* ------------------------------------------------------------------
  * Horizontal carousels: prev/next buttons, counter, mouse drag
@@ -143,10 +212,12 @@ setupCarousel(cardsScroller, explorer.querySelector('.carousel-ctrl'));
  * Mortgage calculator (annuity loan)
  * ------------------------------------------------------------------ */
 const form = document.querySelector('#calc');
-const eur = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
-const pct = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 2 });
 
-const calc = () => {
+function calc() {
+	const { locale, years: yearsWord } = META[lang];
+	const eur = new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+	const pct = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
+
 	const price = Number(form.price.value);
 	const down = Number(form.down.value);
 	const years = Number(form.years.value);
@@ -160,7 +231,7 @@ const calc = () => {
 
 	form.querySelector('[data-for="price"]').textContent = eur.format(price);
 	form.querySelector('[data-for="down"]').textContent = `${down} % · ${eur.format(price * down / 100)}`;
-	form.querySelector('[data-for="years"]').textContent = `${years} Jahre`;
+	form.querySelector('[data-for="years"]').textContent = `${years} ${yearsWord}`;
 	form.querySelector('[data-for="rate"]').textContent = `${pct.format(rate)} %`;
 
 	document.querySelector('#monthly').textContent = eur.format(monthly);
@@ -171,9 +242,8 @@ const calc = () => {
 		const fill = ((input.value - input.min) / (input.max - input.min)) * 100;
 		input.style.setProperty('--fill', `${fill}%`);
 	});
-};
+}
 form.addEventListener('input', calc);
-calc();
 
 /* ------------------------------------------------------------------
  * Mobile navigation
@@ -193,3 +263,11 @@ nav.addEventListener('click', (e) => {
 });
 
 document.querySelector('#year').textContent = new Date().getFullYear();
+
+/* ------------------------------------------------------------------
+ * Start: restore the saved language (German by default), then calculate
+ * ------------------------------------------------------------------ */
+let saved = null;
+try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* storage unavailable */ }
+if (saved === 'en') applyLang('en');
+calc();
