@@ -465,8 +465,10 @@ em { font-style: italic; }
    ===================================================================== */
 
 .rows {
-	/* As we're about to shift content out of .rows, it hides its overflow */
-	overflow-x: hidden;
+	/* As we're about to shift content out of .rows, it hides its overflow.
+	   `clip`, not `hidden`: a `hidden` box is a scroll container, and view()
+	   would then track .rows (which never scrolls) instead of the page. */
+	overflow-x: clip;
 	display: grid;
 	gap: 0.25rem;
 	padding: clamp(3rem, 8vw, 7rem) 0;
@@ -561,93 +563,101 @@ em { font-style: italic; }
 }
 
 /* =====================================================================
-   PARALLAX CAROUSEL
-   Based on the "Parallax Carousel" scroll-driven animations demo:
-   the images are wider than the slides and their object-position is
-   linked to a View Timeline that tracks each image on the x axis.
+   CARD DECK (Objekte)
+   The fanned deck from card_deck/index.html: cards fan out around the
+   front card, the stage tilts towards the cursor, and a click, swipe,
+   arrow key or the ← → buttons bring the next card to the front.
+   main.js sets --x / --y / --z / --rot on each card.
    ===================================================================== */
 
 .objects { padding: clamp(3rem, 6vw, 5rem) 0 clamp(4rem, 8vw, 7rem); }
 
-.slides {
-	list-style: none;
-	margin: 0;
-	padding: 0 var(--gutter) 1rem;
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: clamp(250px, 30vw, 440px);
-	gap: clamp(0.75rem, 1.5vw, 1.25rem);
-	overflow-x: auto;
-	scroll-snap-type: x mandatory;
-	scroll-padding-inline: var(--gutter);
-	scrollbar-width: none;
-	cursor: grab;
-	overscroll-behavior-x: contain;
-}
-.slides::-webkit-scrollbar { display: none; }
-.slides.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-
-.slide {
+.deck {
 	position: relative;
+	height: clamp(500px, 62vh, 620px);
+	perspective: 1400px;
+	touch-action: pan-y;
+	outline: none;
+}
+.deck__stage {
+	position: absolute;
+	inset: 0;
+	transform-style: preserve-3d;
+	transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.deck__card {
+	--w: min(360px, 70vw);
+	position: absolute;
+	left: 50%;
+	top: 46%;
+	width: var(--w);
 	aspect-ratio: 3 / 4;
+	margin: 0;
+	translate: -50% -50%;
 	border-radius: var(--radius);
 	overflow: hidden;
-	scroll-snap-align: start;
-	background: var(--paper-2);
+	color: var(--white);
+	background: var(--night);
+	box-shadow: 0 30px 60px -20px rgba(13, 15, 43, 0.5);
+	transform: translate3d(var(--x, 0), var(--y, 0), var(--z, 0)) rotate(var(--rot, 0deg));
+	transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s, opacity 0.4s;
+	transform-style: preserve-3d;
+	backface-visibility: hidden;
+	cursor: pointer;
 	user-select: none;
 }
+.deck__card.is-front { box-shadow: 0 40px 80px -24px rgba(13, 15, 43, 0.6); cursor: default; }
+.deck__card.is-hidden { opacity: 0; pointer-events: none; }
+.deck__card img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Don't squeeze the images */
-.slide > img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: 100% 0;
-	transition: scale 0.6s var(--ease-out);
-}
-.slide:hover > img { scale: 1.04; }
-
-.slide__label {
+.deck__cap {
 	position: absolute;
 	inset: auto 0 0 0;
 	padding: 4rem 1.5rem 1.5rem;
-	color: var(--white);
 	background: linear-gradient(transparent, rgba(13, 15, 43, 0.85));
 }
-.slide__label span {
+.deck__cap span {
 	font-size: 0.75rem;
 	font-weight: 700;
 	letter-spacing: 0.15em;
 	color: #ffb0b3;
 }
-.slide__label h3 {
+.deck__cap h3 {
 	font-family: var(--display);
-	font-weight: 400;
 	font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.3rem);
 	line-height: 1.1;
 	letter-spacing: -0.02em;
+	font-stretch: 78%;
+	font-weight: 700;
 }
-.slide__label p { color: rgba(255, 255, 255, 0.78); font-size: 0.92rem; }
+.deck__cap p { color: rgba(255, 255, 255, 0.78); font-size: 0.92rem; }
 
-/* Scroll-Timeline Supported, Yay! */
-.sda .slide > img {
-	animation: adjust-image linear both;
-	animation-timeline: view(x);
-}
-@keyframes adjust-image {
-	0% { object-position: 100% 0; }
-	100% { object-position: 0 0; }
+.deck__hint {
+	position: absolute;
+	inset: auto 0 0 0;
+	text-align: center;
+	font-size: 0.85rem;
+	color: var(--muted);
 }
 
-.sda .slide__label > * {
-	animation: label-in linear both;
-	animation-timeline: view(x);
-	animation-range: entry 30% entry 100%;
+@media (max-width: 700px) {
+	.deck { height: 470px; }
+	.deck__card { --w: min(270px, 68vw); }
 }
-.sda .slide__label h3 { animation-range: entry 45% entry 100%; }
-.sda .slide__label p { animation-range: entry 60% entry 100%; }
-@keyframes label-in {
-	from { opacity: 0; transform: translateX(40px); }
+@media (prefers-reduced-motion: reduce) {
+	.deck__stage, .deck__card { transition: none; }
+}
+/* without JavaScript: a plain scrollable row of cards */
+html:not(.js) .deck { height: auto; perspective: none; }
+html:not(.js) .deck__stage { position: static; display: flex; gap: 1rem; overflow-x: auto; padding: 0 var(--gutter); }
+html:not(.js) .deck__card { position: relative; left: auto; top: auto; translate: none; transform: none; flex: none; }
+html:not(.js) .deck__hint { display: none; }
+
+/* the deck rises in as the section enters */
+.sda .deck {
+	animation: head-in linear both;
+	animation-timeline: view();
+	animation-range: entry 0% entry 70%;
 }
 
 /* section title slides up as the section enters */
@@ -889,6 +899,7 @@ em { font-style: italic; }
 
 .svc {
 	position: relative;
+	container-type: inline-size; /* lets the photo's keyframes use the card width (cqw) */
 	width: clamp(250px, 26vw, 380px);
 	height: clamp(380px, 56vh, 560px);
 	border-radius: var(--radius);
@@ -897,16 +908,20 @@ em { font-style: italic; }
 	background: var(--navy-deep);
 }
 .svc img {
+	/* landscape photo at full card height, wider than the card; starts showing its right edge */
 	position: absolute;
-	inset: 0;
-	width: 100%;
+	top: 0;
+	left: 0;
 	height: 100%;
+	width: auto;
+	max-width: none;
+	aspect-ratio: 14 / 9;
 	object-fit: cover;
-	object-position: 100% 50%;
-	transition: transform 0.8s var(--ease-out), filter 0.8s;
+	transform: translateX(calc(-100% + 100cqw));
+	transition: scale 0.8s var(--ease-out), filter 0.8s;
 	filter: saturate(0.85);
 }
-.svc:hover img { transform: scale(1.06); filter: saturate(1.1); }
+.svc:hover img { scale: 1.06; filter: saturate(1.1); }
 .svc > div {
 	position: absolute;
 	inset: auto 0 0 0;
@@ -965,12 +980,15 @@ em { font-style: italic; }
 	animation-range: contain 0% contain 100%;
 }
 
-/* Parallax window, like the carousel: the landscape photo is wider than its
-   portrait card, and its object-position follows the card across the screen.
+/* Parallax window: the landscape photo is wider than its portrait card and
+   slides across inside it while the card crosses the screen. It moves with
+   transform (GPU-composited) rather than object-position, which would
+   repaint every photo on every frame.
    The track moves by transform, so view(x) can't see it; main.js measures
    when each card enters and leaves and writes that into --enter / --exit. */
 .sda .svc img {
-	animation: adjust-image linear both;
+	will-change: transform;
+	animation: svc-pan linear both;
 	animation-timeline: --hs;
 	animation-range: contain var(--enter, 0%) contain var(--exit, 100%);
 }
@@ -979,6 +997,10 @@ em { font-style: italic; }
 	animation: fg-drift linear both;
 	animation-timeline: --hs;
 	animation-range: contain var(--enter, 0%) contain var(--exit, 100%);
+}
+@keyframes svc-pan {
+	from { transform: translateX(calc(-100% + 100cqw)); }
+	to { transform: translateX(0); }
 }
 @keyframes fg-drift {
 	from { transform: translateX(32px); }

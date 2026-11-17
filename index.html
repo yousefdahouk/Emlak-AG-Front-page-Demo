@@ -139,48 +139,52 @@
 				</div>
 			</header>
 
-			<ul class="slides" id="slides">
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&h=900&q=70" alt="Moderne Wohnanlage mit Balkonen" data-en-alt="Modern apartment block with balconies" draggable="false" loading="lazy">
-					<div class="slide__label"><span>01</span><h3 data-en="Apartments">Wohnungen</h3><p data-en="Central, bright, well connected">Stadtnah, hell, gut angebunden</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&h=900&q=70" alt="Modernes Einfamilienhaus mit Pool" data-en-alt="Modern family house with pool" draggable="false" loading="lazy">
-					<div class="slide__label"><span>02</span><h3 data-en="Houses">Häuser</h3><p data-en="Room for family and future">Raum für Familie und Zukunft</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&h=900&q=70" alt="Helle Büroetage" data-en-alt="Bright office floor" draggable="false" loading="lazy">
-					<div class="slide__label"><span>03</span><h3 data-en="Commercial">Gewerbeobjekte</h3><p data-en="Office, practice, retail">Büro, Praxis, Einzelhandel</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1400&h=900&q=70" alt="Kleines Haus auf einem Hügel" data-en-alt="Small house on a hill" draggable="false" loading="lazy">
-					<div class="slide__label"><span>04</span><h3 data-en="Land">Grundstücke</h3><p data-en="Building plots with prospects">Bauland mit Perspektive</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&fit=crop&w=1400&h=900&q=70" alt="Mehrfamilienhaus mit Holzfassade" data-en-alt="Apartment building with timber facade" draggable="false" loading="lazy">
-					<div class="slide__label"><span>05</span><h3 data-en="Apartment buildings">Mehrfamilienhäuser</h3><p data-en="Returns through good management">Rendite durch gute Verwaltung</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1400&h=900&q=70" alt="Villa mit Pool" data-en-alt="Villa with pool" draggable="false" loading="lazy">
-					<div class="slide__label"><span>06</span><h3 data-en="Villas">Villen</h3><p data-en="Marketed discreetly">Diskret vermarktet</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1400&h=900&q=70" alt="Neubau mit Holz- und Putzfassade" data-en-alt="New build with timber and render facade" draggable="false" loading="lazy">
-					<div class="slide__label"><span>07</span><h3 data-en="New builds">Neubau</h3><p data-en="From planning to handover">Von der Planung bis zur Übergabe</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&h=900&q=70" alt="Fassade eines Wohnhauses" data-en-alt="Facade of a residential building" draggable="false" loading="lazy">
-					<div class="slide__label"><span>08</span><h3 data-en="Townhouses">Stadthäuser</h3><p data-en="Living in the neighbourhood">Wohnen im Veedel</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&h=900&q=70" alt="Loft-Büro mit großen Fenstern" data-en-alt="Loft office with large windows" draggable="false" loading="lazy">
-					<div class="slide__label"><span>09</span><h3 data-en="Office space">Büroflächen</h3><p data-en="Flexible space for teams">Flexible Flächen für Teams</p></div>
-				</li>
-				<li class="slide">
-					<img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&h=900&q=70" alt="Modernisiertes Wohnzimmer" data-en-alt="Modernised living room" draggable="false" loading="lazy">
-					<div class="slide__label"><span>10</span><h3 data-en="Modernisation">Modernisierung</h3><p data-en="Add value, cut costs">Wert steigern, Kosten senken</p></div>
-				</li>
-			</ul>
+			<!-- Card deck (from card_deck/): click a side card, swipe, use ← → or the arrow keys -->
+			<div class="deck" id="deck" tabindex="0" role="region" aria-roledescription="Kartenstapel" aria-label="Objektarten" data-en-aria-label="Property types">
+				<div class="deck__stage">
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&h=900&q=70" alt="Moderne Wohnanlage mit Balkonen" data-en-alt="Modern apartment block with balconies" draggable="false">
+						<figcaption class="deck__cap"><span>01</span><h3 data-en="Apartments">Wohnungen</h3><p data-en="Central, bright, well connected">Stadtnah, hell, gut angebunden</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&h=900&q=70" alt="Modernes Einfamilienhaus mit Pool" data-en-alt="Modern family house with pool" draggable="false">
+						<figcaption class="deck__cap"><span>02</span><h3 data-en="Houses">Häuser</h3><p data-en="Room for family and future">Raum für Familie und Zukunft</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&h=900&q=70" alt="Helle Büroetage" data-en-alt="Bright office floor" draggable="false">
+						<figcaption class="deck__cap"><span>03</span><h3 data-en="Commercial">Gewerbeobjekte</h3><p data-en="Office, practice, retail">Büro, Praxis, Einzelhandel</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1400&h=900&q=70" alt="Kleines Haus auf einem Hügel" data-en-alt="Small house on a hill" draggable="false">
+						<figcaption class="deck__cap"><span>04</span><h3 data-en="Land">Grundstücke</h3><p data-en="Building plots with prospects">Bauland mit Perspektive</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&fit=crop&w=1400&h=900&q=70" alt="Mehrfamilienhaus mit Holzfassade" data-en-alt="Apartment building with timber facade" draggable="false">
+						<figcaption class="deck__cap"><span>05</span><h3 data-en="Apartment buildings">Mehrfamilienhäuser</h3><p data-en="Returns through good management">Rendite durch gute Verwaltung</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1400&h=900&q=70" alt="Villa mit Pool" data-en-alt="Villa with pool" draggable="false">
+						<figcaption class="deck__cap"><span>06</span><h3 data-en="Villas">Villen</h3><p data-en="Marketed discreetly">Diskret vermarktet</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1400&h=900&q=70" alt="Neubau mit Holz- und Putzfassade" data-en-alt="New build with timber and render facade" draggable="false">
+						<figcaption class="deck__cap"><span>07</span><h3 data-en="New builds">Neubau</h3><p data-en="From planning to handover">Von der Planung bis zur Übergabe</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&h=900&q=70" alt="Fassade eines Wohnhauses" data-en-alt="Facade of a residential building" draggable="false">
+						<figcaption class="deck__cap"><span>08</span><h3 data-en="Townhouses">Stadthäuser</h3><p data-en="Living in the neighbourhood">Wohnen im Veedel</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&h=900&q=70" alt="Loft-Büro mit großen Fenstern" data-en-alt="Loft office with large windows" draggable="false">
+						<figcaption class="deck__cap"><span>09</span><h3 data-en="Office space">Büroflächen</h3><p data-en="Flexible space for teams">Flexible Flächen für Teams</p></figcaption>
+					</figure>
+					<figure class="deck__card">
+						<img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&h=900&q=70" alt="Modernisiertes Wohnzimmer" data-en-alt="Modernised living room" draggable="false">
+						<figcaption class="deck__cap"><span>10</span><h3 data-en="Modernisation">Modernisierung</h3><p data-en="Add value, cut costs">Wert steigern, Kosten senken</p></figcaption>
+					</figure>
+				</div>
+				<p class="deck__hint" aria-hidden="true" data-en="Click, swipe or use the arrow keys">Klicken, wischen oder Pfeiltasten</p>
+			</div>
 		</section>
 
 		<!-- ============ STATEMENT: text fills line by line while pinned ============ -->
@@ -266,16 +270,16 @@
 				</header>
 				<div class="hscroll__viewport">
 					<ul class="hscroll__track">
-						<li class="svc"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>01</span><h3 data-en="Buy">Kaufen</h3><p data-en="Your new home or your next investment.">Ihr neues Zuhause oder Ihre nächste Kapitalanlage.</p><a href="https://emlak-ag.de/immobilien/kaufen/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>02</span><h3 data-en="Sell">Verkaufen</h3><p data-en="Best-price guarantee with an individual 6-point plan.">BESTpreis-Garantie durch einen individuellen 6-Punkte-Plan.</p><a href="https://emlak-ag.de/immobilien/verkaufen/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>03</span><h3 data-en="Rent">Mieten</h3><p data-en="Apartments and houses in Cologne and the surrounding area.">Wohnungen und Häuser in Köln und Umgebung.</p><a href="https://emlak-ag.de/immobilien/mieten/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>04</span><h3 data-en="Let">Vermieten</h3><p data-en="Service packages from listing to handover.">Leistungspakete von der Anzeige bis zur Übergabe.</p><a href="https://emlak-ag.de/immobilien/vermieten/leistungspakete/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>05</span><h3 data-en="Foreclosure auctions">Zwangs&shy;versteigerung</h3><p data-en="Current listings and NPL marketing.">Aktuelle Angebote und NPL-Vermarktung.</p><a href="https://emlak-ag.de/immobilien/zwangsversteigerung/alle-angebote/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>06</span><h3 data-en="Project development">Projekt&shy;entwicklung</h3><p data-en="New builds, modernisation and thermography.">Neubau, Modernisierung und Thermografie.</p><a href="https://emlak-ag.de/architektur/projektentwicklung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>07</span><h3 data-en="Valuation">Wert&shy;ermittlung</h3><p data-en="Market value analyses and appraisals – DEKRA-certified.">Marktwertanalyse und Verkehrswertgutachten – DEKRA-zertifiziert.</p><a href="https://emlak-ag.de/wertermittlung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>08</span><h3>Asset Management</h3><p data-en="Investment profiles and property acquisition.">Investmentprofile und Immobilienankauf.</p><a href="https://emlak-ag.de/asset-management/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>09</span><h3 data-en="Management">Verwaltung</h3><p data-en="Property management, caretaker and parking services.">Hausverwaltung, Hausmeister- und Park-Service.</p><a href="https://emlak-ag.de/service/verwaltung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
-						<li class="svc"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" draggable="false"><div><span>10</span><h3 data-en="Financing">Finanzierung</h3><p data-en="Financing and investment with strong partners.">Finanzierung und Investment mit starken Partnern.</p><a href="https://emlak-ag.de/service/finanzierung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>01</span><h3 data-en="Buy">Kaufen</h3><p data-en="Your new home or your next investment.">Ihr neues Zuhause oder Ihre nächste Kapitalanlage.</p><a href="https://emlak-ag.de/immobilien/kaufen/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>02</span><h3 data-en="Sell">Verkaufen</h3><p data-en="Best-price guarantee with an individual 6-point plan.">BESTpreis-Garantie durch einen individuellen 6-Punkte-Plan.</p><a href="https://emlak-ag.de/immobilien/verkaufen/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>03</span><h3 data-en="Rent">Mieten</h3><p data-en="Apartments and houses in Cologne and the surrounding area.">Wohnungen und Häuser in Köln und Umgebung.</p><a href="https://emlak-ag.de/immobilien/mieten/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>04</span><h3 data-en="Let">Vermieten</h3><p data-en="Service packages from listing to handover.">Leistungspakete von der Anzeige bis zur Übergabe.</p><a href="https://emlak-ag.de/immobilien/vermieten/leistungspakete/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>05</span><h3 data-en="Foreclosure auctions">Zwangs&shy;versteigerung</h3><p data-en="Current listings and NPL marketing.">Aktuelle Angebote und NPL-Vermarktung.</p><a href="https://emlak-ag.de/immobilien/zwangsversteigerung/alle-angebote/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>06</span><h3 data-en="Project development">Projekt&shy;entwicklung</h3><p data-en="New builds, modernisation and thermography.">Neubau, Modernisierung und Thermografie.</p><a href="https://emlak-ag.de/architektur/projektentwicklung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>07</span><h3 data-en="Valuation">Wert&shy;ermittlung</h3><p data-en="Market value analyses and appraisals – DEKRA-certified.">Marktwertanalyse und Verkehrswertgutachten – DEKRA-zertifiziert.</p><a href="https://emlak-ag.de/wertermittlung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>08</span><h3>Asset Management</h3><p data-en="Investment profiles and property acquisition.">Investmentprofile und Immobilienankauf.</p><a href="https://emlak-ag.de/asset-management/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>09</span><h3 data-en="Management">Verwaltung</h3><p data-en="Property management, caretaker and parking services.">Hausverwaltung, Hausmeister- und Park-Service.</p><a href="https://emlak-ag.de/service/verwaltung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
+						<li class="svc"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&h=900&q=70" alt="" loading="eager" decoding="async" draggable="false"><div><span>10</span><h3 data-en="Financing">Finanzierung</h3><p data-en="Financing and investment with strong partners.">Finanzierung und Investment mit starken Partnern.</p><a href="https://emlak-ag.de/service/finanzierung/" data-en="Learn more →">Mehr erfahren →</a></div></li>
 					</ul>
 				</div>
 				<div class="hscroll__progress" aria-hidden="true"><span></span></div>

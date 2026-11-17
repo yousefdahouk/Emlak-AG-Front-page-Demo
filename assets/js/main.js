@@ -149,6 +149,21 @@ window.addEventListener('resize', layoutServices);
 document.fonts?.ready.then(layoutServices);
 
 /* ------------------------------------------------------------------
+ * Warm-up, so no heavy work lands mid-scroll:
+ * - decode the large service photos ahead of time (otherwise they decode
+ *   the first time they're painted, right as the section scrolls in);
+ * - start loading the 3D models while the visitor is still up top
+ *   (otherwise <model-viewer> loads them just as the services section
+ *   ends and the 3D section comes into view).
+ * Runs once the page has loaded and the browser is idle.
+ * ------------------------------------------------------------------ */
+const whenIdle = (fn) => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 3000 }) : setTimeout(fn, 1200));
+window.addEventListener('load', () => whenIdle(() => {
+	document.querySelectorAll('.svc img, .deck__card img').forEach((img) => img.decode?.().catch(() => {}));
+	whenIdle(() => document.querySelectorAll('model-viewer[loading="lazy"]').forEach((mv) => { mv.loading = 'eager'; }));
+}), { once: true });
+
+/* ------------------------------------------------------------------
  * Horizontal carousels: prev/next buttons, counter, mouse drag
  * ------------------------------------------------------------------ */
 const setupCarousel = (scroller, controls, counter) => {
@@ -202,8 +217,70 @@ const setupCarousel = (scroller, controls, counter) => {
 	}, true);
 };
 
+/* ------------------------------------------------------------------
+ * Card deck (Objekte) – ported from card_deck/index.html.
+ * Cards fan out around the front card; the stage tilts towards a mouse
+ * cursor; click a side card, swipe, press ←/→ or use the header buttons.
+ * ------------------------------------------------------------------ */
+const setupDeck = (deck, controls, counter) => {
+	const stage = deck.querySelector('.deck__stage');
+	const cards = [...deck.querySelectorAll('.deck__card')];
+	const n = cards.length;
+	const VISIBLE = 3; // cards shown on each side of the front card
+	let front = 0;
+
+	const layout = () => {
+		cards.forEach((card, i) => {
+			const k = (i - front + n) % n;
+			const s = k <= n / 2 ? k : k - n; // signed distance from the front card
+			card.style.setProperty('--x', `${s * 52}px`);
+			card.style.setProperty('--y', `${Math.abs(s) * 8}px`);
+			card.style.setProperty('--z', `${-Math.abs(s) * 70}px`);
+			card.style.setProperty('--rot', `${s * 5}deg`);
+			card.style.zIndex = String(20 - Math.abs(s));
+			card.classList.toggle('is-front', k === 0);
+			card.classList.toggle('is-hidden', Math.abs(s) > VISIBLE);
+			card.setAttribute('aria-hidden', k === 0 ? 'false' : 'true');
+		});
+		if (counter) counter.innerHTML = `<b>${String(front + 1).padStart(2, '0')}</b> / ${String(n).padStart(2, '0')}`;
+	};
+	const go = (step) => { front = (front + step + n) % n; layout(); };
+
+	let swiped = false; // a swipe ending on a side card must not also count as a click on it
+	cards.forEach((card, i) => card.addEventListener('click', () => {
+		if (swiped) { swiped = false; return; }
+		if (i !== front) { front = i; layout(); }
+	}));
+	controls?.querySelectorAll('[data-dir]').forEach((btn) => btn.addEventListener('click', () => go(Number(btn.dataset.dir))));
+	deck.addEventListener('keydown', (e) => {
+		if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+		if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+	});
+
+	// tilt towards the cursor (mouse and trackpad only)
+	const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+	if (finePointer && !reduceMotion) {
+		deck.addEventListener('pointermove', (e) => {
+			const r = deck.getBoundingClientRect();
+			stage.style.transform = `rotateY(${((e.clientX - r.left) / r.width - 0.5) * 22}deg) rotateX(${(0.5 - (e.clientY - r.top) / r.height) * 12}deg)`;
+		});
+		deck.addEventListener('pointerleave', () => { stage.style.transform = ''; });
+	}
+
+	// swipe
+	let startX = null;
+	deck.addEventListener('pointerdown', (e) => { startX = e.clientX; swiped = false; });
+	deck.addEventListener('pointerup', (e) => {
+		if (startX !== null && Math.abs(e.clientX - startX) > 40) { swiped = true; go(e.clientX < startX ? 1 : -1); }
+		startX = null;
+	});
+	deck.querySelectorAll('img').forEach((img) => img.addEventListener('dragstart', (e) => e.preventDefault()));
+
+	layout();
+};
+
 const objects = document.querySelector('#objekte');
-setupCarousel(objects.querySelector('.slides'), objects.querySelector('.carousel-ctrl'), objects.querySelector('.counter'));
+setupDeck(objects.querySelector('.deck'), objects.querySelector('.carousel-ctrl'), objects.querySelector('.counter'));
 
 const explorer = document.querySelector('#quartier');
 setupCarousel(cardsScroller, explorer.querySelector('.carousel-ctrl'));
