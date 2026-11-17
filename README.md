@@ -54,12 +54,13 @@ Before going live, replace them with Emlak AG's own property photos (or download
 | `building-small-*.glb` | [Kenney – City Builder Starter Kit](https://github.com/KenneyNL/Starter-Kit-City-Builder) (textures embedded) | CC0 |
 | `quartier.glb` | Composed from the Kenney tiles above by `models/build-quartier.mjs` (gltf-transform) | CC0 |
 
-Other good places to find free building models: [Poly Pizza](https://poly.pizza) (CC0/CC-BY low-poly), [Kenney.nl](https://kenney.nl/assets), [Quaternius](https://quaternius.com), and [Sketchfab](https://sketchfab.com/search?features=downloadable&licenses=7c23a1ba438d4306920229c12afcb5f9&q=building&type=models) with the "downloadable" and CC filters. Sketchfab has real photogrammetry scans of buildings, but downloading needs an account. Export as `.glb`, keep it under a few MB, and drop it in `models/`. Draco-compressed files work, because `<model-viewer>` loads the decoder automatically.
+Other good places to find free building models: [Poly Pizza](https://poly.pizza) (CC0/CC-BY low-poly), [Kenney.nl](https://kenney.nl/assets), [Quaternius](https://quaternius.com), and [Sketchfab](https://sketchfab.com/search?features=downloadable&licenses=7c23a1ba438d4306920229c12afcb5f9&q=building&type=models) with the "downloadable" and CC filters. Sketchfab has real photogrammetry scans of buildings, but downloading needs an account. Export as `.glb`, keep it under a few MB, and drop it in `models/`. Draco-compressed files work: the decoder is vendored in `vendor/draco/`.
 
 ### Libraries (`vendor/`)
 
 * [`@google/model-viewer`](https://modelviewer.dev) 4.1.0 – Apache-2.0
 * [`scroll-timeline-polyfill`](https://github.com/flackr/scroll-timeline) 1.1.0 – Apache-2.0
+* Draco decoder (`vendor/draco/`, from the three.js examples) – Apache-2.0, so `<model-viewer>` needn't fetch it from gstatic.com
 * `trackProgress` from [`@bramus/sda-utilities`](https://www.npmjs.com/package/@bramus/sda-utilities) – MIT, inlined in `assets/js/main.js`
 
 ### Content
